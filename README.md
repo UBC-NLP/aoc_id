@@ -74,8 +74,7 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 
 ```
 @inproceedings{mageedYouTweet2018,
-  title={You Tweet What You Speak:
-A City-Level Dataset of Arabic Dialects},
+  title={You Tweet What You Speak: A City-Level Dataset of Arabic Dialects},
   author={Abdul-Mageed, Muhammad and Alhuzali, Hassan and Elaraby, Mohamed},
   booktitle={LREC},
   pages={3653--3659},
