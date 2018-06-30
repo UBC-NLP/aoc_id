@@ -71,8 +71,14 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 - AOC embedding: Download in url: [link] https://drive.google.com/open?id=1QEg9HotnTCI45-PT52g445bp5qYQ4RSm
 - Twitter Embedding Model: Download in url: [link]  https://drive.google.com/open?id=1hEuNHn2PA7kIf1IK0FUGUskA77YZJ3vO
  - cite the following paper if you are planning to use city level dialect embedding model: 
- 
-@article{abdulyou,
-  title={You Tweet What You Speak: A City-Level Dataset of Arabic Dialects},
-  author={Abdul-Mageed, Muhammad and Alhuzali, Hassan and Elaraby, Mohamed}
+
+```
+@inproceedings{mageedYouTweet2018,
+  title={You Tweet What You Speak:
+A City-Level Dataset of Arabic Dialects},
+  author={Abdul-Mageed, Muhammad and Alhuzali, Hassan and Elaraby, Mohamed},
+  booktitle={LREC},
+  pages={3653--3659},
+  year={2018}
 }
+```
