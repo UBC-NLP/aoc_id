@@ -28,7 +28,8 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 # General Usage:
 - * Tested with python 3.4 *
 - python test_baselines.py --train training_file --Ar='True' --dev Dev_File --test test_file --model_type=model_selection --static=Trainable_embeddings --rand=Random_Embeddings --embedding=External_Embedding_model --model_file=Output_model_file_inJson
-- put your training labels in [link:][https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/blob/master/conf/label_list]
+- put your training labels in [[link](https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/blob/master/conf/label_list)].
+
 # Options details #
 
 - train: training file assuming in csv format, text, label
