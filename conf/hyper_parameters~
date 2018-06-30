@@ -1,0 +1,15 @@
+##general
+hidden_dim=300
+vocab_size=80000
+embedding_size=50
+max_seq_len=30
+Drop_out=0.2
+batch_size=64
+epochs=1
+optimizer=adam
+loss=categorical_crossentropy
+##CNN
+filters=32
+kernel_size=3
+padding=same
+activation=relu
