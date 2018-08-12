@@ -1,6 +1,6 @@
-# Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-
+# Deep Models for Arabic Dialect Identification on Benchmarked Data
 
-*This is a simple text classification library based on keras associated with a text normalization script for Arabic*
+*This is a simple text classification library focused on dialect identification, based on keras. Some Arabic text normalization utilities are included.*
 
 # Current Implemented Models:
 
@@ -51,9 +51,9 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 - make sure to cite AOC oringial paper if you are going to use it in your work. 
 - This work currently accepted to VarDial Worshop 2018 co-located with COLING 2018 under the name (paper soon)
 "Deep Models for Arabic Dialect Identification on Benchmarked Data"
-- Training data link: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/train)]
-- Dev data link: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/dev)]
-- Test data link: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/test)]
+- Training data: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/train)]
+- Dev data: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/dev)]
+- Test data: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/test)]
 - An example on how to use it is in:  [[link](https://github.com/UBC-NLP/aoc_id/edit/master/run.sh)]
 
 - *If you are going to follow up on this project please cite this work using the following bibtext:*
@@ -68,8 +68,8 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 # External Embedding Models #
 
 - For Arabic Dialects we release 2 embedding models 
-- AOC embedding: Download in url: [link] https://drive.google.com/open?id=1QEg9HotnTCI45-PT52g445bp5qYQ4RSm
-- Twitter Embedding Model: Download in url: [link]  https://drive.google.com/open?id=1hEuNHn2PA7kIf1IK0FUGUskA77YZJ3vO
+- AOC embedding: [[Download URL](https://drive.google.com/open?id=1QEg9HotnTCI45-PT52g445bp5qYQ4RSm)]
+- Twitter Embedding Model: [[Download URL](https://drive.google.com/open?id=1hEuNHn2PA7kIf1IK0FUGUskA77YZJ3vO)]
  - cite the following paper if you are planning to use city level dialect embedding model: 
 
 ```
