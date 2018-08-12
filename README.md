@@ -28,7 +28,7 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 # General Usage:
 - * Tested with python 3.4 *
 - python test_baselines.py --train training_file --Ar='True' --dev Dev_File --test test_file --model_type=model_selection --static=Trainable_embeddings --rand=Random_Embeddings --embedding=External_Embedding_model --model_file=Output_model_file_inJson
-- put your training labels in [[link](https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/blob/master/conf/label_list)].
+- put your training labels in [[link](https://github.com/UBC-NLP/aoc_id/edit/master/conf/label_list)].
 
 # Options details #
 
@@ -51,20 +51,20 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 - make sure to cite AOC oringial paper if you are going to use it in your work. 
 - This work currently accepted to VarDial Worshop 2018 co-located with COLING 2018 under the name (paper soon)
 "Deep Models for Arabic Dialect Identification on Benchmarked Data"
-- Training data link: [link]: https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/tree/master/data/train
-- Dev data link: [link]: https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/tree/master/data/dev
-- Test data link: [link]: https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/tree/master/data/test
-- An example on how to use it is in:  https://github.com/EngSalem/Text-Classification-of-the-shelf-with-a-normalizer-for-Arabic-text-/blob/master/run.sh
+- Training data link: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/train)]
+- Dev data link: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/dev)]
+- Test data link: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/test)]
+- An example on how to use it is in:  [[link](https://github.com/UBC-NLP/aoc_id/edit/master/run.sh)]
 
 - *If you are going to follow up on this project please cite this work using the following bibtext:*
-
+```
 @inproceedings{Elaraby2018,
   title={Deep Models for Arabic Dialect Identification on Benchmarked Data},
   author={Elaraby, Mohamed and Abdul-Mageed, Muhammad},
   booktitle={Proceedings of the Fifth Workshop on NLP for Similar Languages, Varieties and Dialects (VarDial5)},
   year={2018}
 }
-
+```
 # External Embedding Models #
 
 - For Arabic Dialects we release 2 embedding models 
