@@ -40,7 +40,8 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 - static: used in case of external embedding, if True: External Embeddings are not fine tuned during training, if False: External EMbeddings are fine tuned during training). 
 - rand: if True, No external embedding is applied, randomly initialized embedding 
 - embedding: External embedding model in gensim format
-- model_file: Output model file in Json.
+- model_file: Output model file in Json. 
+ -EMB_type: Choose whether fastText or CBOW or skipgram
 
 *Note: final model score is dumped into a file with name_of_model_score with both dev and test scores*
 # Example Project (Arabic Dialect Identification with Deep Models) #
