@@ -19,8 +19,12 @@ parser.add_argument('--static',action='store',dest='STATIC',
 parser.add_argument('--rand',action='store',dest='rand',
                     help='Random Initialization for embedding or not')
 
+parser.add_argument('--EMB_type',action='store',
+                    help='embedding type, choice between skipgram CBOW or fastText' , default='CBOW')
+
 parser.add_argument('--embedding',action='store',dest='embedd_file',
                     help='Embedding Model',default="AOC_Skipgram.mdl")
+
 
 parser.add_argument('--model_file',action='store',dest='ModelFile',
                     help='The output of the model file',default='models/CNN_Model')
@@ -62,7 +66,7 @@ elif args.STATIC=="False":
 
 if args.model_type=="cnn":
    FW=open("CNN_scores",'w')
-   CNNBaseline=cnn_kim(cnn_rand=RAND,STATIC=Trainable,ExternalEmbeddingModel=args.embedd_file,n_symbols=n_symbols,wordmap=word_map)
+   CNNBaseline=cnn_kim(cnn_rand=RAND,STATIC=Trainable,ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,n_symbols=n_symbols,wordmap=word_map)
    CNNBaseline.train_model(CNNBaseline.model,X_train,Y_train=Y_train,X_valid=X_valid,Y_valid=Y_valid)
    ValidScore=CNNBaseline.Evaluate_model(CNNBaseline.model,X_valid,Y_valid)
    TestScore=CNNBaseline.Evaluate_model(CNNBaseline.model,X_test,Y_test)
@@ -72,7 +76,7 @@ if args.model_type=="cnn":
    CNNBaseline.save_model(args.ModelFile,CNNBaseline.model)
 elif args.model_type=="clstm":
    FW=open("CLSTM_scores","w")
-   CLSTMBaseline=clstm(clstm_rand=RAND,STATIC=Trainable,ExternalEmbeddingModel=args.embedd_file,n_symbols=n_symbols,wordmap=word_map)
+   CLSTMBaseline=clstm(clstm_rand=RAND,STATIC=Trainable,ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,n_symbols=n_symbols,wordmap=word_map)
    CLSTMBaseline.train_model(CLSTMBaseline.model,X_train=X_train,Y_train=Y_train,X_valid=X_valid,Y_valid=Y_valid)
    ValidScore=CLSTMBaseline.Evaluate_model(CLSTMBaseline.model,X_valid,Y_valid)
    TestScore=CLSTMBaseline.Evaluate_model(CLSTMBaseline.model,X_test,Y_test)
@@ -82,7 +86,7 @@ elif args.model_type=="clstm":
    CLSTMBaseline.save_model(args.ModelFile, CLSTMBaseline.model)
 elif args.model_type=="lstm":
    FW=open("LSTM_score",'w')
-   LSTMBaseline=BasicLSTM(lstm_rand=RAND,STATIC=Trainable,ExternalEmbeddingModel=args.embedd_file,n_symbols=n_symbols,wordmap=word_map)
+   LSTMBaseline=BasicLSTM(lstm_rand=RAND,STATIC=Trainable,ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,n_symbols=n_symbols,wordmap=word_map)
    LSTMBaseline.train_model(LSTMBaseline.model,X_train=X_train,Y_train=Y_train,X_valid=X_valid,Y_valid=Y_valid)
    ValidScore = LSTMBaseline.Evaluate_model(LSTMBaseline.model, X_valid, Y_valid)
    TestScore = LSTMBaseline.Evaluate_model(LSTMBaseline.model, X_test, Y_test)
@@ -92,7 +96,7 @@ elif args.model_type=="lstm":
    LSTMBaseline.save_model(args.ModelFile, LSTMBaseline.model)
 elif args.model_type=="blstm":
     FW = open("BLSTM_score", 'w')
-    BiLSTMBaseline = BasicBiLSTM(bilstm_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,n_symbols=n_symbols,wordmap=word_map)
+    BiLSTMBaseline = BasicBiLSTM(bilstm_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,n_symbols=n_symbols,wordmap=word_map)
     BiLSTMBaseline.train_model(BiLSTMBaseline.model, X_train=X_train, Y_train=Y_train, X_valid=X_valid, Y_valid=Y_valid)
     ValidScore = BiLSTMBaseline.Evaluate_model(BiLSTMBaseline.model, X_valid, Y_valid)
     TestScore = BiLSTMBaseline.Evaluate_model(BiLSTMBaseline.model, X_test, Y_test)
@@ -102,7 +106,7 @@ elif args.model_type=="blstm":
     BiLSTMBaseline.save_model(args.ModelFile, BiLSTMBaseline.model)
 elif args.model_type=="bigru":
     FW = open("BiGRU_score", 'w')
-    BiGRUBaseline = BasicBiGRUs(BiGRU_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,n_symbols=n_symbols,wordmap=word_map)
+    BiGRUBaseline = BasicBiGRUs(BiGRU_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,n_symbols=n_symbols,wordmap=word_map)
     BiGRUBaseline.train_model(BiGRUBaseline.model, X_train=X_train, Y_train=Y_train, X_valid=X_valid, Y_valid=Y_valid)
     ValidScore = BiGRUBaseline.Evaluate_model(BiGRUBaseline.model, X_valid, Y_valid)
     TestScore = BiGRUBaseline.Evaluate_model(BiGRUBaseline.model, X_test, Y_test)
@@ -112,7 +116,7 @@ elif args.model_type=="bigru":
     BiGRUBaseline.save_model(args.ModelFile, BiGRUBaseline.model)
 elif args.model_type=="attbilsm":
     FW = open("attbilstm_score", 'w')
-    AttBiLSTM = AttentionBiLSTM(att_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,
+    AttBiLSTM = AttentionBiLSTM(att_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,
                                 n_symbols=n_symbols, wordmap=word_map)
     AttBiLSTM.train_model(AttBiLSTM.model, X_train=X_train, Y_train=Y_train, X_valid=X_valid, Y_valid=Y_valid)
     ValidScore = AttBiLSTM.Evaluate_model(AttBiLSTM.model, X_valid, Y_valid)

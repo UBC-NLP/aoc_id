@@ -6,6 +6,7 @@ import text_normalization as tn
 import gensim
 import numpy as np
 import pandas as pd
+import io
 #################################
 ##########################
 EmbeddingSize=300
@@ -73,6 +74,16 @@ def GetEmbeddingWeights(embedding_dim,n_symbols,wordmap,vecDic):
 def GetVecDicFromGensim(GensimFile):
     Model=gensim.models.Word2Vec.load(GensimFile)
     return Model.wv
+
+def load_fasttext(FastTextFile):
+    fin = io.open(FastTextFile, 'r', encoding='utf-8', newline='\n', errors='ignore')
+    #n, d = map(int, fin.readline().split())
+    data = {}
+    for line in fin:
+        tokens = line.rstrip().split(' ')
+        data[tokens[0]] = np.array([list(map(float, tokens[1:]))])
+    return data
+
 #####################################
 def get_char2idx(x):
     st=""

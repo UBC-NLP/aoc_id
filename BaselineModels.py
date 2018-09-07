@@ -34,9 +34,11 @@ class General():
        self.LoadedModel=None
        self.Model=None
        self.ExternalEmbeddingModel = None
+       self.EmbeddingType=None
 
-    def set_etxrernal_embedding(self,GensimModelFile):
-        self.ExternalEmbeddingModel=GensimModelFile
+    def set_etxrernal_embedding(self,ModelFile,ModelType):
+        self.ExternalEmbeddingModel=ModelFile
+        self.EmbeddingType=ModelType
 
     def set_training_paramters(self,batch_size,num_epochs):
         self.batch_size=batch_size
@@ -75,6 +77,9 @@ class General():
 
         return LoadedModel
 
+    #def Return_preds(self,Model,X_test):
+
+
 class cnn_kim(General): ##inherits General
     '''
     CNNfor text classification based on kim 2014
@@ -82,7 +87,7 @@ class cnn_kim(General): ##inherits General
     different is that network is initialized with RandomNormal distribution
     of small standard deviation
     '''
-    def __init__(self,cnn_rand=True,STATIC=False,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None):
+    def __init__(self,cnn_rand=True,STATIC=False,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None):
         # Model hyperparameters
         self.embedding_dim=300##
         self.filter_sizes = (3, 8)
@@ -96,7 +101,8 @@ class cnn_kim(General): ##inherits General
         self.std=0.05 ## standard deviation
         # Training Parameters
         self.set_training_paramters(batch_size=64,num_epochs=10)
-        self.set_processing_parameters(sequence_length=100,vocab_size=vocabsize) ## changed to fit short text
+        self.set_processing_parameters(sequence_length=30,vocab_size=vocabsize) ## changed to fit short text
+
         # Defining Model Layers
         if cnn_rand:
             ##Embedding Layer Randomly initialized
@@ -107,8 +113,11 @@ class cnn_kim(General): ##inherits General
         else:
             ## Use pretrained model
             #n_symbols, wordmap = dh.get_word_map_num_symbols()
-            self.set_etxrernal_embedding(ExternalEmbeddingModel)
-            vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            self.set_etxrernal_embedding(ExternalEmbeddingModel,ModelType=EmbeddingType)
+            if self.EmbeddingType == "skipgram" or self.EmbeddingType == "CBOW":
+               vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            elif self.EmbeddingType == "fastText":
+               vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
             Classes = dh.read_labels()
             n_classes = len(Classes)
             ## Define Embedding Layer
@@ -148,7 +157,7 @@ class CrepeCNN(General): ## Todo
 
 
 
-    def __init__(self,crepe_rand=True,STATIC=False,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None,vocabsize=None,maxseq=None,embedding_dim=None):
+    def __init__(self,crepe_rand=True,STATIC=False,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None,vocabsize=None,maxseq=None,embedding_dim=None):
      '''
      Deep CNN for text classification based on Lecun15
      '''
@@ -156,7 +165,7 @@ class CrepeCNN(General): ## Todo
      self.embedding_dim = embedding_dim
      self.filter_kernels = [7, 7, 3, 3, 3, 3]
      self.nb_filters = 256
-     self.batch_size = 80
+     self.batch_size = 64
      self.nb_epochs = 10
      self.std = 0.05
      self.dropout_prob = (0.5, 0.8)
@@ -179,15 +188,19 @@ class CrepeCNN(General): ## Todo
      else:
          ## Use pretrained model
          # n_symbols, wordmap = dh.get_word_map_num_symbols()
-         self.set_etxrernal_embedding(ExternalEmbeddingModel)
-         vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+         self.set_etxrernal_embedding(ExternalEmbeddingModel, ModelType=EmbeddingType)
+         if self.EmbeddingType == "skipgram" or self.EmbeddingType == "CBOW":
+             vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+         elif self.EmbeddingType == "fastText":
+             vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
+         Classes = dh.read_labels()
+         n_classes = len(Classes)
          ## Define Embedding Layer
          embedding_weights = dh.GetEmbeddingWeights(embedding_dim=300, n_symbols=n_symbols, wordmap=wordmap,
                                                     vecDic=vecDic)
          embedding_layer = Embedding(output_dim=self.embedding_dim, input_dim=n_symbols, trainable=STATIC)
          embedding_layer.build((None,))  # if you don't do this, the next step won't work
          embedding_layer.set_weights([embedding_weights])
-
 
 
      SequenceIn=Input(shape=(self.sequence_length,), dtype='int32')
@@ -290,7 +303,7 @@ class clstm(General): # inherits general
     CLSTM like based on Zhu 16
     paper link: https://arxiv.org/pdf/1511.08630.pdf
     '''
-    def __init__(self,clstm_rand=True,STATIC=False,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None):
+    def __init__(self,clstm_rand=True,STATIC=False,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None):
         # Model hyperparameters
         self.embedding_dim=300##
         #self.filter_sizes = (3, 8)
@@ -315,9 +328,13 @@ class clstm(General): # inherits general
 
         else:
             ## Use pretrained model
-            #n_symbols, wordmap = dh.get_word_map_num_symbols()
-            self.set_etxrernal_embedding(ExternalEmbeddingModel)
-            vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            # n_symbols, wordmap = dh.get_word_map_num_symbols()
+            self.set_etxrernal_embedding(ExternalEmbeddingModel, ModelType=EmbeddingType)
+            print(self.EmbeddingType)
+            if self.EmbeddingType == "skipgram" or "CBOW":
+                vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            elif self.EmbeddingType == "fastText":
+                vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
             Classes = dh.read_labels()
             n_classes = len(Classes)
             ## Define Embedding Layer
@@ -352,7 +369,7 @@ class BasicLSTM(General): ## inherits General
     '''
     LSTM Our implementation
     '''
-    def __init__(self,lstm_rand=True,STATIC=False,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None):
+    def __init__(self,lstm_rand=True,STATIC=False,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None):
         self.embedding_dim = 300
         self.hidden_dims = 100
         self.dropout_prob = (0.5, 0.8)
@@ -374,13 +391,16 @@ class BasicLSTM(General): ## inherits General
 
         else:
             ## Use pretrained model
-            #n_symbols, wordmap = dh.get_word_map_num_symbols()
-            self.set_etxrernal_embedding(ExternalEmbeddingModel)
-            vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            # n_symbols, wordmap = dh.get_word_map_num_symbols()
+            self.set_etxrernal_embedding(ExternalEmbeddingModel, ModelType=EmbeddingType)
+            if self.EmbeddingType == "skipgram" or self.EmbeddingType == "CBOW":
+                vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            elif self.EmbeddingType == "fastText":
+                vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
             Classes = dh.read_labels()
             n_classes = len(Classes)
             ## Define Embedding Layer
-            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=self.embedding_dim, n_symbols=n_symbols, wordmap=wordmap,
+            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=300, n_symbols=n_symbols, wordmap=wordmap,
                                                        vecDic=vecDic)
             embedding_layer = Embedding(output_dim=self.embedding_dim, input_dim=n_symbols, trainable=STATIC)
             embedding_layer.build((None,))  # if you don't do this, the next step won't work
@@ -403,7 +423,7 @@ class BasicBiLSTM(General): ## inherits General
     '''
     BiLSTM Our implementation
     '''
-    def __init__(self,bilstm_rand=True,STATIC=False,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None):
+    def __init__(self,bilstm_rand=True,STATIC=False,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None):
         self.embedding_dim = 300
         self.hidden_dims = 100
         self.dropout_prob = (0.5, 0.8)
@@ -413,7 +433,7 @@ class BasicBiLSTM(General): ## inherits General
         self.l2_reg = 3  ##according to kim14
         self.std = 0.05  ## standard deviation
         # Training Parameters
-        self.set_training_paramters(batch_size=64, num_epochs=10)
+        self.set_training_paramters(batch_size=64, num_epochs=2)
         self.set_processing_parameters(sequence_length=30, vocab_size=50000)  ## changed to fit short text
         # Defining Model Layers        if clstm_rand:
         ##Embedding Layer Randomly initialized
@@ -425,13 +445,16 @@ class BasicBiLSTM(General): ## inherits General
 
         else:
             ## Use pretrained model
-            #n_symbols, wordmap = dh.get_word_map_num_symbols()
-            self.set_etxrernal_embedding(ExternalEmbeddingModel)
-            vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            # n_symbols, wordmap = dh.get_word_map_num_symbols()
+            self.set_etxrernal_embedding(ExternalEmbeddingModel, ModelType=EmbeddingType)
+            if self.EmbeddingType == "skipgram" or self.EmbeddingType == "CBOW":
+                vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            elif self.EmbeddingType == "fastText":
+                vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
             Classes = dh.read_labels()
             n_classes = len(Classes)
             ## Define Embedding Layer
-            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=self.embedding_dim, n_symbols=n_symbols, wordmap=wordmap,
+            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=300, n_symbols=n_symbols, wordmap=wordmap,
                                                        vecDic=vecDic)
             embedding_layer = Embedding(output_dim=self.embedding_dim, input_dim=n_symbols, trainable=STATIC)
             embedding_layer.build((None,))  # if you don't do this, the next step won't work
@@ -452,7 +475,7 @@ class BasicBiGRUs(General): ## inherits General
     '''
     BiLSTM Our implementation
     '''
-    def __init__(self,BiGRU_rand=True,STATIC=False,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None):
+    def __init__(self,BiGRU_rand=True,STATIC=False,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None):
         self.embedding_dim = 300
         self.hidden_dims = 100
         self.dropout_prob = (0.5, 0.8)
@@ -474,13 +497,16 @@ class BasicBiGRUs(General): ## inherits General
 
         else:
             ## Use pretrained model
-            #n_symbols, wordmap = dh.get_word_map_num_symbols()
-            self.set_etxrernal_embedding(ExternalEmbeddingModel)
-            vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            # n_symbols, wordmap = dh.get_word_map_num_symbols()
+            self.set_etxrernal_embedding(ExternalEmbeddingModel, ModelType=EmbeddingType)
+            if self.EmbeddingType == "skipgram" or self.EmbeddingType == "CBOW":
+                vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            elif self.EmbeddingType == "fastText":
+                vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
             Classes = dh.read_labels()
             n_classes = len(Classes)
             ## Define Embedding Layer
-            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=self.embedding_dim, n_symbols=n_symbols, wordmap=wordmap,
+            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=300, n_symbols=n_symbols, wordmap=wordmap,
                                                        vecDic=vecDic)
             embedding_layer = Embedding(output_dim=self.embedding_dim, input_dim=n_symbols, trainable=STATIC)
             embedding_layer.build((None,))  # if you don't do this, the next step won't work
@@ -548,7 +574,7 @@ class AttentionBiGru(General):
 #####################################################
 
 class AttentionBiLSTM(General):
-    def __init__(self,att_rand=True,ExternalEmbeddingModel=None,n_symbols=None,wordmap=None,STATIC=True):
+    def __init__(self,att_rand=True,ExternalEmbeddingModel=None,EmbeddingType=None,n_symbols=None,wordmap=None,STATIC=True):
         self.dropout_prob = (0.36, 0.36)
         self.hidden_dims = 100
         self.std = 0.05
@@ -568,15 +594,20 @@ class AttentionBiLSTM(General):
         if att_rand:
             ##Embedding Layer Randomly initialized
             embedding_layer = Embedding(output_dim=self.embedding_dim, input_dim=self.vocab_size)
-
-
         else:
             ## Use pretrained model
-            #n_symbols, wordmap = dh.get_word_map_num_symbols()
-            self.set_etxrernal_embedding(ExternalEmbeddingModel)
-            vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            # n_symbols, wordmap = dh.get_word_map_num_symbols()
+            self.set_etxrernal_embedding(ExternalEmbeddingModel, ModelType=EmbeddingType)
+            if self.EmbeddingType == "skipgram" or self.EmbeddingType == "CBOW":
+                print('using '+self.EmbeddingType)
+                vecDic = dh.GetVecDicFromGensim(self.ExternalEmbeddingModel)
+            elif self.EmbeddingType == "fastText":
+                print('using ' + self.EmbeddingType)
+                vecDic = dh.load_fasttext(self.ExternalEmbeddingModel)
+            Classes = dh.read_labels()
+            n_classes = len(Classes)
             ## Define Embedding Layer
-            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=self.embedding_dim, n_symbols=n_symbols, wordmap=wordmap,
+            embedding_weights = dh.GetEmbeddingWeights(embedding_dim=300, n_symbols=n_symbols, wordmap=wordmap,
                                                        vecDic=vecDic)
             embedding_layer = Embedding(output_dim=self.embedding_dim, input_dim=n_symbols, trainable=STATIC)
             embedding_layer.build((None,))  # if you don't do this, the next step won't work

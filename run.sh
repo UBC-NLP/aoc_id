@@ -6,9 +6,10 @@
 
 set -e
 
-model=attbilsm
-EmbeddingModelDir=./EmbeddingModels
+model=blstm
+EmbType=fastText
+EmbeddingModelDir=/EmbeddingModels/
+DataDir=data/kickstarter
 
-
-python3.4 test_baselines.py --train data/train/MultiTrain.Shuffled.csv --Ar='True' --dev data/dev/MultiDev.csv --test data/test/MultiTest.csv --model_type=$model --static=False --rand=False --embedding=$EmbeddingModelDir/CbowModel.mdl --model_file=$model'_CBOWModel_non_static_Multi_Model'
+python3.4 test_baselines.py --train $DataDir/train_data.csv --Ar='False' --dev $DataDir/valid_data.csv --test $DataDir/test_data.csv --model_type=$model --static=False --rand=False --EMB_type=$EmbType --embedding=$EmbeddingModelDir/crawl-300d-2M.vec --model_file=$model'_kickstarter_fasttext_init'
 
