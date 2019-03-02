@@ -4,13 +4,9 @@
 
 # Current Implemented Models:
 
-1- Word Level CNN based on:
-"Convultion Neural Network for Text Classificartion"
-url: http://www.aclweb.org/anthology/D14-1181
+1- Word Level CNN based on [[Convultion Neural Network for Text Classificartion](http://www.aclweb.org/anthology/D14-1181)].
 
-2- Word Level C-LSTM based on:
-"A C-LSTM Neural Network for Text Classification"
-url:https://arxiv.org/pdf/1511.08630.pdf
+2- Word Level C-LSTM based on [[A C-LSTM Neural Network for Text Classification](https://arxiv.org/pdf/1511.08630.pdf)].
 
 3- Recurrent Network and its variants (BiLSTM, LSTM, GRU, BiGRU, Attention-BiLSTM)
 
@@ -47,10 +43,8 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 *Note: final model score is dumped into a file with name_of_model_score with both dev and test scores*
 # Example Project (Arabic Dialect Identification with Deep Models) #
 
-- This project utilize 6 deep learning models applied on Arabic Online Commentary Dataset 
-- url:  https://www.cs.jhu.edu/~ccb/publications/arabic-dialect-corpus.pdf
-- dataset url: https://www.cis.upenn.edu/~ccb/data/AOC-dialectal-annotations.zip 
-- make sure to cite AOC oringial paper if you are going to use it in your work. 
+- This project utilize 6 deep learning models applied on Arabic Online Commentary Dataset. [[Paper](https://www.cs.jhu.edu/~ccb/publications/arabic-dialect-corpus.pdf)]; [[Dataset](https://www.cis.upenn.edu/~ccb/data/AOC-dialectal-annotations.zip)]. 
+- Make sure to cite AOC oringial paper if you are going to use it in your work. 
 - This work currently accepted to VarDial Worshop 2018 co-located with COLING 2018 under the name (paper soon)
 "Deep Models for Arabic Dialect Identification on Benchmarked Data"
 - Training data: [[link](https://github.com/UBC-NLP/aoc_id/edit/master/data/train)]
