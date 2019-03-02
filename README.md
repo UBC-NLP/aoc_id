@@ -1,4 +1,4 @@
-# Deep Models for Arabic Dialect Identification on Benchmarked Data
+# Deep Models for Arabic Dialect Identification on Benchmarked Data. [[Paper](http://www.aclweb.org/anthology/W18-3930)].
 
 *This is a simple text classification library focused on dialect identification, based on keras. Some Arabic text normalization utilities are included.*
 
