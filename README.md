@@ -19,17 +19,18 @@ url:https://arxiv.org/pdf/1511.08630.pdf
 5- Not yet tested  (char level CNN). 
 
 # Requirements
-
+```
 - keras (2.0 or above)
 - gensim
 - numpy
 - pandas
-
+```
 # General Usage:
+```
 - * Tested with python 3.4 *
 - python test_baselines.py --train training_file --Ar='True' --dev Dev_File --test test_file --model_type=model_selection --static=Trainable_embeddings --rand=Random_Embeddings --embedding=External_Embedding_model --model_file=Output_model_file_inJson
 - put your training labels in [[link](https://github.com/UBC-NLP/aoc_id/edit/master/conf/label_list)].
-
+```
 # Options details #
 
 - train: training file assuming in csv format, text, label
