@@ -114,7 +114,7 @@ elif args.model_type=="bigru":
     FW.write('BiGRU Test score: ' + str(TestScore) + "\n")
     FW.close()
     BiGRUBaseline.save_model(args.ModelFile, BiGRUBaseline.model)
-elif args.model_type=="attbilsm":
+elif args.model_type=="attbilstm":
     FW = open("attbilstm_score", 'w')
     AttBiLSTM = AttentionBiLSTM(att_rand=RAND, STATIC=Trainable, ExternalEmbeddingModel=args.embedd_file,EmbeddingType=args.EMB_type,
                                 n_symbols=n_symbols, wordmap=word_map)
